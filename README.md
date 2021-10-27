@@ -7,21 +7,19 @@
 ## Description:
 You’ll be conducting a relatively simple comparison of gene expression between two treatment groups, using short-read mRNA-seq data and a (provided) *de novo* transcriptome. This involves several overall steps: cleaning raw sequence reads, aligning reads to the transcriptome, counting how many reads align to each contig, and testing for differential expression (≈ different numbers of mapped reads) between treatment groups.
 
-For each of these steps, there are a number of different programs / approaches that can be strung together into an analysis “pipeline”. All have their advantages and drawbacks, but there’s no single objective “best” way to analyze these data. We will assign each of you a unique pipeline – a different combination of mapping and analysis programs. For this homework, please read some of the documentation for your pipeline’s programs and run the data through them. Record your commands and note the metrics and output of your pipeline at each stage of the process. Please annotate this extensively with your thoughts on this pipeline, guided (but not limited!) by the questions below.
+For each of these steps, there are a number of different programs / approaches that can be strung together into an analysis “pipeline”. All have their advantages and drawbacks, but there’s no single objective “best” way to analyze these data. For simplicity, you'll all be using the "wicked fast" pseudo-aligner `salmon`, but we will assign you a mix of DE analysis programs. For this homework, please read some of the documentation for your assigned program and run the data through them. Record your commands and note the metrics and output of your pipeline at each stage of the process. Please annotate this extensively with your thoughts on this pipeline, guided (but not limited!) by the questions below.
 
-Once homework has been submitted, we will collate and compare the results of your various pipelines and present them in a later class. We’ll discuss the results as a class, so as part of this assignment be prepared to discuss the particulars of your pipeline, pros / cons, etc.
+Once homework has been submitted, we will collate and compare the results of your various analyses and present them in a later class. We’ll discuss the results as a class, so as part of this assignment be prepared to discuss the particulars of your program, pros / cons, etc.
 
 Start this homework early! There are several different steps, and this will give you time to troubleshoot and ask questions as needed.
 
-This homework is split into two parts, A and B. In A, you will start with raw reads and a provided transcriptome assembly and prepare these data for differential expression analysis. This involves retrieving reads from the SRA, cleaning reads, aligning reads to the transcriptome, counting the number of reads aligned to each contig, and reformatting these count data to input into a differential analysis program. Please copy this document and change the name to `hw3a_answers_[LASTNAME].md`, and reply in the document as prompted. We'll also ask you to create and save several scripts to be pushed with your HW repo. Everything we want you to submit is listed at the bottom of the document.
+This homework has quite a few steps. First, you will start with raw reads and a provided transcriptome assembly and prepare these data for differential expression analysis. This involves retrieving reads from the SRA, cleaning reads, aligning reads to the transcriptome, counting the number of reads aligned to each contig, and reformatting these count data to input into a differential analysis program. Next, you'll use your DE analysis program to compare expression between the two groups, do a little functional enrichment analysis using a provided files of GO terms, and answer some questions about your results and what they mean.
 
-Please use the alignment program assigned here:
-* `BWA`: 
-* `bowtie2`: 
-* `salmon`: 
-* `kallisto`: 
+Note: If you're not formally enrolled but want to do this homework, please pick whichever analysis program strikes your fancy.
 
-Note: If you're not formally enrolled but want to do this homework, please pick whichever aligner strikes your fancy.
+Please copy this document and change the name to `hw3_answers_[LASTNAME].md`, and reply in the document as prompted. We'll also ask you to create and save several scripts to be pushed with your HW repo. Everything we want you to submit is listed at the bottom of the document.
+
+## The Data:
 
 The data you'll be working with are from DeLeo & Bracken-Grissom (paper included in this repo):
 * Species: Vertically-migrating shrimp, *Systellaspis debilis*
@@ -32,44 +30,35 @@ Briefly, *S. debilis* were collected in the Florida Strait in July 2017 with "a 
 Five individuals captured at each time of day / depth, for a total of 10 individuals sequenced.
 * Sequencing: mRNA sequencing, 150 bp paired-end reads, Illumina HiSeq
 
+## Provided files:
 
-## STEP 1: Retrieve reads from the SRA
+Downsampled raw transcriptome sequence files from 10 samples, with two files per sample (forward and reverse reads).
 
-In this repo, there is a file called `sra_list.txt`, which contains the SRR identifiers for all the samples you will be working with. 
+A _de novo_ transcriptome assembled by the authors for this project.
 
-First, set up a conda environment called `genex` for this homework, and add sratools to it. Paste these commands below:
-```
-```
+A file linking each contig to a series of GO terms for functional enrichment analysis.
 
-Write a bash script to retrieve the samples in `sra_list.txt` from the SRA using sratools. Paste this script below:
-```
-```
+An empty slurm script called `hw3_slurm_wrapper.txt` with placeholder info. Feel free to use this wrapper as the starting point for the (several!) slurm submissions you will do in the course of this homework.
 
-I have provided an empty slurm script called `hw3_slurm_wrapper.txt` with placeholder info. Feel free to use this wrapper as the starting point for the (several!) slurm submissions you will do in the course of this homework.
 
-Embed your bash script into a slurm script called `hw3_sra-retrieve_[LASTNAME].txt`, and run it on the HPC. Use the following parameters:
-```
-partition=compute
-cpus-per-task=1
-mem=5000
-time=2:00:00
-```
-
-## STEP 2: Clean raw reads
+## STEP 1: Clean raw reads
 
 Raw reads off a sequencer are not always perfect – they can have some low-quality bases, and sometimes the adaptor sequence hasn’t been completely removed. As a first step, we’re going to clean up our raw sequence reads so we are working only with high-quality base calls. (This is usually your first step no matter what you’re doing downstream.)
 
-There are a number of ways to do this, but we’re going to use Trim Galore! (The ! is part of the official name.) It is a wrapper script for cutadapt and fastqc, which it requires to run. Add trim_galore to your genex conda environment.
+There are a number of ways to do this, but we’re going to use Trim Galore! (The ! is part of the official name.) It is a wrapper script for cutadapt and fastqc, which it requires to run. 
+
+Set up a conda environment called `HW3` for this homework, and add all necessary programs to this environment as you go through the homework.
 
 Here is the command for cleaning a single file:
 
-`trim_galore -q 20 --phred33 --illumina --length 100 -stringency 3 --fastqc [SEQ_NAME]`
+`trim_galore -q 20 --phred33 --illumina -stringency 3 --paired --length 100 --fastqc [SEQFILE_FORWARD] [SEQFILE_REVERSE]`
 
 What do the flags on this command mean? (Hint: the program output might be helpful here.)
 
 > Answer: 
 
-Embed your bash script into a slurm script called `hw3_clean-reads_[LASTNAME].txt`, and run it on the HPC. Use the following parameters:
+Write a bash loop to trim and clip all samples, embed it in a slurm script called `hw3_clean-reads_[LASTNAME].txt`, and run it on the HPC. Use the following parameters:
+
 ```
 partition=compute
 cpus-per-task=1
@@ -77,8 +66,7 @@ mem=5000
 time=2:00:00
 ```
 
-Push your `hw3_clean-reads_[LASTNAME].txt` Slurm script to GitHub as part part of your finished homework.
-
+Push your `hw3_clean-reads_[LASTNAME].txt` slurm script to GitHub as part part of your finished homework.
 
 ## STEP 3: Alignment
 
