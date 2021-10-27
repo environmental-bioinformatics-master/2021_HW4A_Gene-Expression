@@ -52,7 +52,7 @@ To create a symbolic link to the raw samples, do this **from your HW3 directory 
 
 Double-check that the path to the sequences (in the `collaboration` directory) is correct! Use an absolute, not a relative path here.
 
-You should see a new "file" named `HW3_raw_seqs` in your HW3 directory. Try `ls HW3_raw_seqs`. What happens? You should see a list of 20 gzipped samples. If you do - awesome! If not, double-check your path and try again (and maybe google around for more guidance on creating and using symbolic links).
+You should see a new "file" named `HW3_raw_seqs` in your HW3 directory. Try `ls HW3_raw_seqs`. You should see a list of 20 gzipped samples. If you do - awesome! If not, double-check your path and try again (and maybe google around for more guidance on creating and using symbolic links).
 
 Now you can use `HW3_raw_seqs` as if it were a directory with all the files in them. Basically, it points right to the single centralized repository and lets you use those samples without having to duplicate them in your own space.
 
