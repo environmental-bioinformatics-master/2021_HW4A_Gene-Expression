@@ -47,7 +47,7 @@ Raw reads off a sequencer are not always perfect – they can have some low-qual
 
 There are a number of ways to do this, but we’re going to use Trim Galore! (The ! is part of the official name.) It is a wrapper script for cutadapt and fastqc, which it requires to run. 
 
-Set up a conda environment called `HW3` for this homework, and add all necessary programs to this environment as you go through the homework.
+Set up a conda environment called `HW3` for this homework, and add **all** necessary programs **except those that run in R** to this environment as you go through the homework. You can run R programs in conda, but it can be complicated to get everything installed poperly and it is awkward to create and view figures, so we're going to let you run R on your own computers if you prefer.
 
 Here is the command for cleaning a single file:
 
@@ -70,53 +70,33 @@ Push your `hw3_clean-reads_[LASTNAME].txt` slurm script to GitHub as part part o
 
 ## STEP 3: Alignment
 
-Next, you need to align the individual reads for each sample to the transcriptome. We have assigned you an aligner; please check out the help files and other online resources for program-specific instructions.
+Next, you need to align the individual reads for each sample to the transcriptome. Use `salmon` - it is `wicked fast` and is commonly used for gene expression analysis. Please check out the help files and other online resources to figure out how to use it.
 
-What aligner are you using? Does it do “proper” alignment, or pseudo-alignment?
+Does salmon do “proper” alignment, or pseudo-alignment?  What's the difference?
 > Answer: 
 
-What are some of the pros / cons of your aligner?
+Could you use `salmon` to align transcriptome reads back to a **genome**?
 > Answer: 
 
-Could you use your aligner to align transcriptome reads back to a **genome**?
+What resources did you use to figure out how to run `salmon` (please give URLs, etc)?
 > Answer: 
 
-What resources did you use to figure out how to run it (please give URLs, etc)?
-> Answer: 
-
-Modify your `genex` conda environment to run your aligner.
 
 Typically, you have to index your reference transcriptome (or genome). Use as a reference transcriptome `hw3_copepod_txm.fasta`, which is included as a gzip file in this repo. What command(s), if any, did you use to index the transcriptome for alignment?
+
 ```
 ```
 
 Set up command(s) to align your trimmed reads to the indexed transcriptome, setting the following parameters (if possible):
 `kmer = 25`
 
-Write a script using Slurm called `hw3_align-[ALIGNER]\_[LASTNAME].txt` to run your alignment on Poseidon. Use the following slurm parameters, depending on your aligner:
+Write a script using Slurm called `hw3_align-[ALIGNER]\_[LASTNAME].txt` to run your alignment on Poseidon. Use the following slurm parameters:
 
-`salmon` / `kallisto`:
 ```
 partition=compute
 ntasks=1
 mem=5000
 time=2:00:00
-```
-
-`bowtie2`:
-```
-partition=compute
-ntasks=2
-mem=10000
-time=4:00:00
-```
-
-`BWA`: (use the `aln` algorithm)
-```
-partition=compute
-ntasks=16
-mem=20000
-time=24:00:00 
 ```
 
 Push your `hw3_align-[ALIGNER]\_[LASTNAME].txt` slurm script to GitHub as part part of your finished homework. 
@@ -131,8 +111,7 @@ How much time did it take to run your alignment script? (Hint: check your slurm-
 For sample SRR5004080, what % of reads aligned / mapped?
 > Answer: 
 
-Note: This information will be automatically calculated for `salmon`, `kallisto`, and `bowtie2`, and is lurking somewhere in the files you’ve already produced. For `BWA`, add `samtools` to your conda environment and run this command:
-`samtools flagstat [FILENAME]`
+Hint: This information will be automatically calculated and is lurking somewhere in the files you’ve already produced.
 
 ## STEP 3.5: Count aligned reads (**BWA & bowtie2 only**)
 
