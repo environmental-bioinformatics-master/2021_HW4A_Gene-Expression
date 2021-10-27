@@ -107,7 +107,7 @@ Typically, you have to index your reference transcriptome (or genome). Use as a 
 Set up command(s) to align your trimmed reads to the indexed transcriptome, setting the following parameters (if possible):
 `kmer = 25`
 
-Write a script using Slurm called `hw3_align-[ALIGNER]\_[LASTNAME].txt` to run your alignment on Poseidon. Use the following slurm parameters:
+Write a bash loop to align all of your samples. Include command(s) to write a line reading "Now processing: "[SAMPLENAME]" to the logfile when each sample starts being processed. Embed it in a slurm script called `hw3_align-[ALIGNER]\_[LASTNAME].txt` and run your alignment on Poseidon. Use the following slurm parameters:
 
 ```
 partition=compute
@@ -119,16 +119,23 @@ time=2:00:00
 Push your `hw3_align-[ALIGNER]\_[LASTNAME].txt` slurm script to GitHub as part part of your finished homework. 
 
 Copy the alignment command(s) for a single sample below, and explain each flag:
+
 ```
 ```
 
 How much time did it take to run your alignment script? (Hint: check your slurm-generated email.)
 > Answer: 
 
-For sample SRR5004080, what % of reads aligned / mapped?
+Write a one-line bash script to print the "Reads written (passing filters)" output for each sample from the logfile to the screen. Make sure this command will also print out the "Now processing: "[SAMPLENAME]" line you added to the log file above, so it's easy to tell which sample belongs to which "Reads written" assessment.
+
+Script:
+```
+```
+For which sample was the **largest number** of reads written?
 > Answer: 
 
-Hint: This information will be automatically calculated and is lurking somewhere in the files you’ve already produced.
+For which sample was the **highest proportion** of reads written?
+> Answer:
 
 ## STEP 3.5: Count aligned reads (**BWA & bowtie2 only**)
 
