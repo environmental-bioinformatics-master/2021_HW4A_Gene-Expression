@@ -74,14 +74,25 @@ What do the flags on this command mean? (Hint: the program output might be helpf
 
 > Answer: 
 
-Write a bash loop to trim and clip all samples, embed it in a slurm script called `hw3_clean-reads_[LASTNAME].txt`, and run it on the HPC. Use the following parameters:
+Write a bash loop to trim and clip all samples. Include command(s) to write a line reading "Now processing: "[SAMPLENAME]" to the logfile when each sample starts being processed. Embed it in a slurm script called `hw3_clean-reads_[LASTNAME].txt`, and run it on the HPC. Use the following parameters:
 
 ```
 partition=compute
 cpus-per-task=1
 mem=5000
-time=2:00:00
+time=8:00:00
 ```
+
+Write a one-line bash script to print the "Reads written (passing filters)" output for each sample from the logfile to the screen. Make sure this command will also print out the "Now processing: "[SAMPLENAME]" line you added to the log file above, so it's easy to tell which sample belongs to which "Reads written" assessment.
+
+Script:
+```
+```
+For which sample was the **largest number** of reads written?
+> Answer: 
+
+For which sample was the **highest proportion** of reads written?
+> Answer:
 
 Push your `hw3_clean-reads_[LASTNAME].txt` slurm script to GitHub as part part of your finished homework.
 
@@ -99,21 +110,23 @@ What resources did you use to figure out how to run `salmon` (please give URLs, 
 > Answer: 
 
 
-Typically, you have to index your reference transcriptome (or genome). Use as a reference transcriptome `hw3_copepod_txm.fasta`, which is included as a gzip file in this repo. What command(s), if any, did you use to index the transcriptome for alignment?
+Typically, you have to index your reference transcriptome (or genome). Use as a reference transcriptome `hw3_copepod_txm.fasta`, which is included as a gzip file in this repo. What command(s) did you use to index the transcriptome for alignment?
 
 ```
 ```
 
-Set up command(s) to align your trimmed reads to the indexed transcriptome, setting the following parameters (if possible):
-`kmer = 25`
+How many kmers does `salmon` use by default for alignment?
+> Answer:
 
-Write a bash loop to align all of your samples. Include command(s) to write a line reading "Now processing: "[SAMPLENAME]" to the logfile when each sample starts being processed. Embed it in a slurm script called `hw3_align-[ALIGNER]\_[LASTNAME].txt` and run your alignment on Poseidon. Use the following slurm parameters:
+Set up command(s) to align your trimmed reads to the indexed transcriptome.
+
+Write a bash loop to align all of your samples, and embed it in a slurm script called `hw3_align-[ALIGNER]\_[LASTNAME].txt` to run your alignment on Poseidon. Use the following slurm parameters:
 
 ```
 partition=compute
 ntasks=1
 mem=5000
-time=2:00:00
+time=1:00:00
 ```
 
 Push your `hw3_align-[ALIGNER]\_[LASTNAME].txt` slurm script to GitHub as part part of your finished homework. 
@@ -126,24 +139,6 @@ Copy the alignment command(s) for a single sample below, and explain each flag:
 How much time did it take to run your alignment script? (Hint: check your slurm-generated email.)
 > Answer: 
 
-Write a one-line bash script to print the "Reads written (passing filters)" output for each sample from the logfile to the screen. Make sure this command will also print out the "Now processing: "[SAMPLENAME]" line you added to the log file above, so it's easy to tell which sample belongs to which "Reads written" assessment.
-
-Script:
-```
-```
-For which sample was the **largest number** of reads written?
-> Answer: 
-
-For which sample was the **highest proportion** of reads written?
-> Answer:
-
-## STEP 3.5: Count aligned reads (**BWA & bowtie2 only**)
-
-After reads are aligned, it’s time to extract quantification data. Many pseudo-aligners will do this automatically; “proper” aligners do not. Instead, they output sam (Sequence Alignment/Map) files with alignment info (sorry, folks with proper aligners!).
-
-If you’re using `bowtie2` or `BWA`, modify and run the `hw3_count.txt` slurm script we’ve provided; call this modified script `hw3_count_[ALIGNER]\_[LASTNAME].txt`. You will need to add `Picard tools` and `samtools` to your conda environment. Push your personalized read-counting slurm script to GitHub as part part of your finished homework.
-
-Note: In your logfile, you may get a series of warnings for the “CleanSam” command saying, “Error parsing text SAM file. MAPQ should be 0 for unmapped read.” Go ahead and ignore these, this has to do with how read mapping is coded by some aligners and doesn’t indicate any downstream issues.
 
 ## STEP 4: Looking at data & prepping input for differential expression analysis:
 
