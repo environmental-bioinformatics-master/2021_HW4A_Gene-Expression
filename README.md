@@ -34,15 +34,17 @@ Five individuals captured at each time of day / depth, for a total of 10 individ
 
 Downsampled raw transcriptome sequence files from 10 samples, with two files per sample (forward and reverse reads). NOTE: These samples are NOT in your GitHub repo, since they're rather large. More on this in Step 0.
 
-A _de novo_ transcriptome assembled by the authors for this project.
+A _de novo_ transcriptome assembled by the authors for this project. NOTE: This file is NOT in your GitHub repo, since it's too large. More on this in Step 0.
 
 A file linking each contig to a series of GO terms for functional enrichment analysis.
+
+A pdf of the paper from which these data were taken: `DeLeo_&_BrackenGrissom_2020.pdf`
 
 An empty slurm script called `hw3_slurm_wrapper.txt` with placeholder info. Feel free to use this wrapper as the starting point for the (several!) slurm submissions you will do in the course of this homework.
 
 ## STEP 0: Get raw reads
 
-Because of their size, the sequence files you'll be using for this project aren't in the GitHub repo. While they are technically small enough to be allowed, they take up enough space that we don't want each of you making a separate copy on the HPC, where space is precious. Instead, they're already on the HPC in a directory called `HW3_sequences` in the `collaboration` directory of the class directory (same place all your project directories are located; you should all have full access here). 
+Because of their size, the sequence files and the reference transcriptome you'll be using for this project aren't in the GitHub repo. While the sequence files are technically small enough to be allowed, they take up enough space that we don't want each of you making a separate copy on the HPC, where space is precious. (The fasta file is just way too big for GitHub, full stop.) Instead, these files are already on the HPC in a directory called `HW3_sequences` in the `collaboration` directory of the class directory (same place all your project directories are located; you should all have full access here). 
 
 You are going to access these samples using a "symbolic link", a neat trick to let everybody work with the **same** reference samples in a central location accessible to all. This is especially handy for raw data or databases: files that are large and that will be accessed repeatedly and/or by multiple users.
 
@@ -52,9 +54,9 @@ To create a symbolic link to the raw samples, do this **from your HW3 directory 
 
 Double-check that the path to the sequences (in the `collaboration` directory) is correct! Use an absolute, not a relative path here.
 
-You should see a new "file" named `HW3_raw_seqs` in your HW3 directory. Try `ls HW3_raw_seqs`. You should see a list of 20 gzipped samples. If you do - awesome! If not, double-check your path and try again (and maybe google around for more guidance on creating and using symbolic links).
+You should see a new "file" named `HW3_raw_seqs` in your HW3 directory. Try `ls HW3_raw_seqs`. You should see a list of 20 gzipped samples and `S_debilis_eye_assembly.fasta`. If you do - awesome! If not, double-check your path and try again (and maybe google around for more guidance on creating and using symbolic links).
 
-Now you can use `HW3_raw_seqs` as if it were a directory with all the files in them. Basically, it points right to the single centralized repository and lets you use those samples without having to duplicate them in your own space.
+Now you can use `HW3_raw_seqs` as if it were a directory with all the files in them. Basically, it points right to the single centralized repository and lets you use those files without having to duplicate them in your own space.
 
 ## STEP 1: Clean raw reads
 
