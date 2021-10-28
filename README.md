@@ -159,7 +159,7 @@ Paste the script output below:
 ```
 ```
 
-Next, we want to merge the read counts from all of these individual files into a single table. To do this, we will need all of the `quant.sf` files to be A) renamed with specific sample names, and B) collected in the same folder. Write a bash script to do this, and paste the script below:
+Next, we want to merge the read counts from all of these individual files into a single table. To do this, we will need all of the `quant.sf` files to be A) renamed with specific sample names (e.g., SRR11048280), and B) collected in the same folder. Write a bash script to do this, and paste the script below:
 
 ```
 ```
@@ -186,10 +186,8 @@ About how much time did you spend on this homework?
 For your homework, please push to GitHub:
 
 1. `hw3a_answers_[LASTNAME].md`: An annotated copy of this readme file including your answers.
-2. `hw3a_conda_genex_[LASTNAME].yml`: yaml file of your genex conda environment
-3. `hw3_sra-retrieve_[LASTNAME].txt`: slurm script for retrieving reads from the SRA
-4. `hw3_clean-reads_[LASTNAME].txt`: slurm script for cleaning raw reads
-5. `hw3_align-[ALIGNER]\_[LASTNAME].txt`: slurm script for aligning clean reads to your transcriptome
-6. `hw3_count_[ALIGNER]\_[LASTNAME].txt`: slurm script for translating alignments into a table of read counts (BWA / bowtie2 only) 
-7. `hw3_counts_[ALIGNER]\_[LASTNAME].csv`: "master" contig-by-sample read count table
+2. `hw3a_conda_HW3_[LASTNAME].yml`: yaml file of your genex conda environment
+3. `hw3_clean-reads_[LASTNAME].txt`: slurm script for cleaning raw reads
+4. `hw3_align-[ALIGNER]\_[LASTNAME].txt`: slurm script for aligning clean reads to your transcriptome
+5. `hw3_counts_[ALIGNER]\_[LASTNAME].tsv`: "contig-by-sample read count table
 
