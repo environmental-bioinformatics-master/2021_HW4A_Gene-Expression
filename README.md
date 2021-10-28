@@ -44,7 +44,7 @@ An empty slurm script called `hw3_slurm_wrapper.txt` with placeholder info. Feel
 
 ## STEP 0: Get raw reads
 
-Because of their size, the sequence files and the reference transcriptome you'll be using for this project aren't in the GitHub repo. While the sequence files are technically small enough to be allowed, they take up enough space that we don't want each of you making a separate copy on the HPC, where space is precious. (The fasta file is just way too big for GitHub, full stop.) Instead, these files are already on the HPC in a directory called `HW3_sequences` in the `collaboration` directory of the class directory (same place all your project directories are located; you should all have full access here). 
+Because of their size, the sequence files and the reference transcriptome you'll be using for this project aren't in the GitHub repo. While the sequence files are technically small enough to be allowed, they take up enough space that we don't want each of you making a separate copy on the HPC, where space is precious. (The fasta file is just too big for GitHub, full stop.) Instead, these files are already on the HPC in a directory called `HW3_sequences` in the `collaboration` directory of the class directory (same place all your project directories are located; you should all have full access here). 
 
 You are going to access these samples using a "symbolic link", a neat trick to let everybody work with the **same** reference samples in a central location accessible to all. This is especially handy for raw data or databases: files that are large and that will be accessed repeatedly and/or by multiple users.
 
@@ -110,7 +110,7 @@ What resources did you use to figure out how to run `salmon` (please give URLs, 
 > Answer: 
 
 
-Typically, you have to index your reference transcriptome (or genome). Use as a reference transcriptome `hw3_copepod_txm.fasta`, which is included as a gzip file in this repo. What command(s) did you use to index the transcriptome for alignment?
+Typically, you have to index your reference transcriptome (or genome). Use as a reference transcriptome `S_debilis_eye_assembly.fasta`, which is you should be able to access through the symbolic link you set up in Step 0. What command(s) did you use to index the transcriptome for alignment?
 
 ```
 ```
@@ -142,19 +142,26 @@ How much time did it take to run your alignment script? (Hint: check your slurm-
 
 ## STEP 4: Looking at data & prepping input for differential expression analysis:
 
-You should now have one counts file per sample giving the number of reads in that sample which mapped back to each contig in the reference transcriptome. (You may have other information as well, including TPM or contig length.) Using these count files as input, write a bash script to count how many contigs in each sample are covered by `> 10000` reads. The output should be the name of the file / sample, followed by the number of contigs with readcount `> 10000`. (It is fine if the sample name is on a different line from the count of highly-expressed contigs.) Paste this script below:
+You should now have one folder per sample, including a file named `quant.sf` giving a summary of mapping to the reference transcriptome. Using these `quant.sf` files as input, write a bash script to count how many contigs in each sample are covered by > 10000 reads. The output should be the name of the file / sample, followed by the number of contigs with readcount > 10000. (It is fine if the sample name is on a different line from the count of highly-expressed contigs.)
+Hint: keep in mind that while each sample's count file has the same name (`quant.sf`), they are all in folders with their sample names.
+
+Paste this script below:
+
 ```
 ```
 
 Paste the script output below:
+
 ```
 ```
 
-Similarly, write a bash script to find the contig in each sample with the greatest number of reads mapping to it. The output should be the name of the file / sample, followed by contig name and the number of reads. (It is fine if the sample name is on a different line from the contig info.) Paste this script below:
+Similarly, write a bash script to find the contig in each sample with the greatest number of reads mapping to it. The output should be the name of the sample, followed by contig name and the number of reads. (It is fine if the sample name is on a different line from the contig info.) Paste this script below:
+
 ```
 ```
 
 Paste the script output below:
+
 ```
 ```
 
