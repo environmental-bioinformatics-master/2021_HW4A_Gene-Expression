@@ -42,6 +42,8 @@ A pdf of the paper from which these data were taken: `DeLeo_&_BrackenGrissom_202
 
 An empty slurm script called `hw3_slurm_wrapper.txt` with placeholder info. Feel free to use this wrapper as the starting point for the (several!) slurm submissions you will do in the course of this homework.
 
+A python scripts (`counts_to_table.py`) for making a table out of individual read count files.
+
 ## STEP 0: Get raw reads
 
 Because of their size, the sequence files and the reference transcriptome you'll be using for this project aren't in the GitHub repo. While the sequence files are technically small enough to be allowed, they take up enough space that we don't want each of you making a separate copy on the HPC, where space is precious. (The fasta file is just too big for GitHub, full stop.) Instead, these files are already on the HPC in a directory called `HW3_sequences` in the `collaboration` directory of the class directory (same place all your project directories are located; you should all have full access here). 
@@ -142,7 +144,7 @@ How much time did it take to run your alignment script? (Hint: check your slurm-
 
 ## STEP 4: Looking at data & prepping input for differential expression analysis:
 
-You should now have one folder per sample, including a file named `quant.sf` giving a summary of mapping to the reference transcriptome. Using these `quant.sf` files as input, write a bash script to count how many contigs in each sample are covered by > 10000 reads. The output should be the name of the file / sample, followed by the number of contigs with readcount > 10000. (It is fine if the sample name is on a different line from the count of highly-expressed contigs.)
+You should now have one folder per sample, each containing a file named `quant.sf` that includes data on mapping to the reference transcriptome. Using these `quant.sf` files as input, write a bash script to count how many contigs in each sample are covered by > 10000 reads. The output should be the name of the file / sample, followed by the number of contigs with readcount > 10000. (It is fine if the sample name is on a different line from the count of highly-expressed contigs.)
 Hint: keep in mind that while each sample's count file has the same name (`quant.sf`), they are all in folders with their sample names.
 
 Paste this script below:
@@ -165,7 +167,12 @@ Paste the script output below:
 ```
 ```
 
-Use the `hw3_counts-to-table.py` python script (provided) to create a “master” tab-delimited table of read counts for all samples, where each row is a contig and each column is a sample. Each cell contains the raw (or imputed) read counts for that sample x contig combination. This will be the input file used in downstream differential expression analysis.
+Next, we want to merge the read counts from all of these individual files into a single table. To do this, we will need all of the `quant.sf` files to be A) renamed with specific sample names, and B) collected in the same folder. Write a bash script to do this, and paste the script below:
+
+```
+```
+
+Use the `counts-to-table.py` python script (provided) to create a tab-delimited table of read counts for all samples, where each row is a contig and each column is a sample. Each cell contains the imputed read counts for that sample x contig combination. This will be the input file used in downstream differential expression analysis.
 
 The top left corner of your  `.tsv` file should look something like this:
 ```
