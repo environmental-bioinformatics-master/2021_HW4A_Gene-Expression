@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#SBATCH --partition=compute
+#SBATCH --job-name=[JOBNAME]
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=[EMAIL ADDRESS]
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=5G
+#SBATCH --time=01:00:00
+#SBATCH --output=[JOBNAME]_%j.log
+#export OMP_NUM_THREADS=1
